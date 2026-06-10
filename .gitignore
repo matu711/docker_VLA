@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Large ML files
+checkpoints/
+logs/
+wandb/
+dataset/
+datasets/
+data/
+*.npz
+*.pt
+*.pth
+*.pkl
+*.safetensors
+*.onnx
+
+# Cache
+.cache/
+.pytest_cache/
+.mypy_cache/
+
+# Docker / temporary
+*.tar
+*.log
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Secrets
+.env
+*.key
+*.pem
+# Virtual environments
+**/.venv/
+**/venv/
+
+# Logs and datasets
+**/log/
+**/logs/
+*.npz
+*.csv
+*.pkl
+
+# ML checkpoints / weights
+**/checkpoints/
+*.pt
+*.pth
+*.safetensors
+*.onnx
+
+# External cloned repositories
+workspace/lerobot/
+workspace/openpi/

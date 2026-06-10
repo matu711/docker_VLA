@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: gymnasium-robotics
+Version: 1.2.0
+Summary: Local editable Gymnasium Robotics
+Requires-Python: >=3.8
+Requires-Dist: gymnasium
+Requires-Dist: numpy
+Requires-Dist: mujoco
+Requires-Dist: imageio
+Requires-Dist: pettingzoo
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary

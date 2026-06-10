@@ -1,0 +1,5 @@
+gymnasium
+numpy
+mujoco
+imageio
+pettingzoo

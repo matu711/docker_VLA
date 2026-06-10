@@ -1,0 +1,100 @@
+seed: 0
+device: auto   # auto / cpu / cuda
+
+paths:
+  log_dir: ./log
+  dataset_path: ./log/dataset.npz
+  model_dir: ./log/bc_model
+  model_path: ./log/bc_model/best_bc_model.pt
+
+env:
+  id: FetchPickAndPlaceDense-v4
+  camera_name: external_camera_0
+  render_width: 480
+  render_height: 480
+  max_steps: 260
+  max_episode_steps: 500
+
+collect:
+  # 等間隔ではなく，x_min〜x_maxからn_demo回ランダムにサンプルする．
+  n_demo: 100
+  base_object_pos: [1.30, 0.50, 0.42]
+  goal_pos: [1.30, 1.00, 0.42]
+  x_min: 1.10
+  x_max: 1.50
+
+  # y方向もランダム化したい時だけtrueにする．
+  sample_y: false
+  y_min: 0.45
+  y_max: 0.55
+
+  show: false
+  show_sleep_sec: 0.02
+  action_noise_std: 0.03
+
+scripted_policy:
+  above_z: 0.62
+  grasp_z_offset: 0.025
+  lift_z: 0.66
+  place_z_offset: 0.04
+
+  # ゆっくり動かす設定．元のkp=10より落としている．
+  kp: 5.0
+  max_action_xyz: 0.5
+  pos_eps: 0.015
+
+  # 掴むところと置くところで少し保持する．
+  grasp_hold_steps: 15
+  place_hold_steps: 10
+
+data:
+  image_size: 128
+  robot_state_key: gripper_pos
+  action_key: actions
+  image_key: images
+  action_dim: 4
+  robot_state_dim: 3
+
+  # ACT用．CNN/Transformer/CVAE/Diffusionでも問題なく無視または利用される．
+  action_horizon: 16
+
+# ここだけ変えるとモデルを切り替えられる．
+model:
+  # cnn_bc / transformer_bc / act_bc / diffusion_policy / cvae_bc
+  name: cnn_bc
+
+  image_feat_dim: 256
+  robot_feat_dim: 64
+  hidden_dim: 256
+  dropout: 0.1
+
+  # Transformer / ACT 用
+  d_model: 256
+  n_heads: 8
+  n_layers: 4
+  action_horizon: 16
+
+  # CVAE 用
+  latent_dim: 32
+  kl_weight: 0.01
+
+  # Diffusion Policy 用
+  diffusion_steps: 50
+  beta_start: 0.0001
+  beta_end: 0.02
+
+train:
+  batch_size: 32
+  epochs: 200
+  lr: 0.0003
+  weight_decay: 0.0001
+  val_ratio: 0.1
+  num_workers: 2
+  grad_clip_norm: 1.0
+  loss: smooth_l1
+
+test:
+  n_seen_pos: 5
+  sleep_sec: 0.02
+  run_seen: true
+  run_unseen: true
