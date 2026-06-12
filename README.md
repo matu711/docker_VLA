@@ -285,3 +285,40 @@ Policy Server を停止する場合は，起動しているターミナルで以
 ```text
 Ctrl + C
 ```
+## 9. チューニング済み VLA の動作確認
+
+Policy Server を起動した状態で，別のターミナルを開き，PictureEnv 側からチューニング済み VLA の動作確認を行います。
+
+### 2つ目のターミナルを開く
+
+別のターミナルを開き，同じ Docker コンテナに入ります。
+
+まず，起動中のコンテナを確認します。
+
+```bash
+docker ps
+```
+
+表示されたコンテナ名またはコンテナIDを使って，コンテナに入ります。
+
+```bash
+docker exec -it <container_name_or_id> bash
+```
+
+### PictureEnv 側へ移動
+
+コンテナに入ったら，PictureEnv のディレクトリに移動します。
+
+```bash
+cd /home/${USER}/docker_VLA/workspace/picture_env
+```
+
+### 動作確認の実行
+
+チューニング済み VLA を使って，Fine-Tuning 時と同じタスクで動作確認を行います。
+
+```bash
+python3 scripts/test_policy.py
+```
+
+このスクリプトを実行することで，PictureEnv 側の client が Policy Server に接続し，学習済み π0 policy から action を取得して動作を確認します。
